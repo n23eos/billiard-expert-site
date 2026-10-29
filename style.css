@@ -242,15 +242,15 @@ summary:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
 
 .scene-slider{position:absolute;top:100%;left:5%;width:90%;z-index:2}
 
-.scene-slider input[type=range]{display:block;height:32px;margin:0;width:100%}
+.scene-slider input[type=range]{display:block;height:32px;margin:0 calc(100% / 14 - 10px);width:calc(100% - 100% / 7 + 20px)}
 
 .scene-slider .ticks{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0}
 
 .scene-slider .ticks button{text-align:center;min-width:0}
 
-.scene-slider .ticks button:first-child{text-align:left}
+.scene-slider .ticks button:first-child{text-align:center}
 
-.scene-slider .ticks button:last-child{text-align:right}
+.scene-slider .ticks button:last-child{text-align:center}
 
 .showcase .controls{margin-top:88px;border-top:0;padding-top:0;align-items:center}
 
