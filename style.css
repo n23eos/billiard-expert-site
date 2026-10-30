@@ -510,3 +510,14 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 .selector-footer{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-top:12px}.selector-footer>span{font-size:11px;color:var(--muted)}.selector-catalog{display:flex;align-items:center;justify-content:space-between;gap:35px;padding:13px 20px;min-height:46px;border:1px solid var(--accent);background:var(--accent);color:var(--bg);font-size:12px;white-space:nowrap}.selector-catalog:hover{background:var(--ink);border-color:var(--ink);color:var(--bg)}.showcase .controls{margin-top:168px}
 @media(max-width:1000px){.material-grid{grid-template-columns:1fr}.material-grid article{min-height:460px}.material-card-copy{max-width:560px;padding:32px}.material-grid .material-card-copy h3{font-size:38px}}
 @media(max-width:700px){.material-grid{gap:20px}.material-grid article{min-height:450px}.material-card-copy{padding:26px}.material-grid .material-card-copy h3{font-size:36px}.material-grid .material-card-copy p{font-size:13px}.selector-footer{margin-top:12px;gap:0}.selector-footer>span{display:none}.selector-catalog{width:100%;min-height:48px;font-size:12px}.showcase .controls{margin-top:28px}}
+
+/* Verified contact information, 2026-10-30. */
+.contact-intro{max-width:370px;color:var(--muted);font-size:14px;line-height:1.8;margin-top:28px}
+.contact-group{display:flex;flex-direction:column;align-items:flex-start;gap:14px;min-width:0}
+.contact-group .eyebrow{margin-bottom:8px}.contact-group small,.contact-caption{font-size:12px;color:var(--muted)}
+.contact-caption{margin-left:12px}.contact-group .phone{color:var(--ink)}
+.contact-location{margin-top:18px;padding-top:30px;border-top:1px solid var(--line)}
+.contact-location address{font-style:normal;font-size:21px;line-height:1.6;color:var(--ink)}
+.contact-location p{max-width:400px;font-size:13px;line-height:1.8;margin:0}
+.contact-source{font-size:12px}.footer-links{display:flex;gap:20px;flex-wrap:wrap;letter-spacing:0}
+@media(max-width:700px){.contact-intro{margin-top:20px}.contact-location address{font-size:20px}footer{flex-wrap:wrap;justify-content:flex-start}.footer-links{width:100%;order:3;gap:18px}}
