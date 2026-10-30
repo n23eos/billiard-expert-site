@@ -521,3 +521,10 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 .contact-location p{max-width:400px;font-size:13px;line-height:1.8;margin:0}
 .contact-source{font-size:12px}.footer-links{display:flex;gap:20px;flex-wrap:wrap;letter-spacing:0}
 @media(max-width:700px){.contact-intro{margin-top:20px}.contact-location address{font-size:20px}footer{flex-wrap:wrap;justify-content:flex-start}.footer-links{width:100%;order:3;gap:18px}}
+
+/* Centered catalogue action. */
+.selector-footer{justify-content:center;flex-direction:column;gap:10px;margin-top:20px}
+.selector-footer>span{display:none}
+.selector-catalog{justify-content:center;gap:32px;min-width:300px;min-height:62px;padding:18px 38px;border-radius:18px;font-size:15px;font-weight:500}
+.showcase .controls{margin-top:186px}
+@media(max-width:700px){.selector-footer{margin-top:18px}.selector-catalog{width:min(100%,320px);min-width:0;min-height:58px;padding:16px 28px;border-radius:16px;font-size:14px}.showcase .controls{margin-top:28px}}
