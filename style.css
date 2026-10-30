@@ -601,3 +601,35 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 .cinematic-hero #hero-motion-toggle{position:absolute;top:12px;right:var(--space);z-index:3}
 .hero-heading{padding-top:74px}
 @media(max-width:700px){.hero-heading{padding-top:74px}.hero-bottom{padding-top:0}}
+
+/* Brand silhouettes: confirmed client and explicitly unconfirmed prospects. */
+.company-strip{max-width:1440px;margin:0 auto;padding:22px var(--space);display:grid;grid-template-columns:190px minmax(0,1fr);gap:32px;border-bottom:1px solid var(--line);background:#191b16;color:#cbbda3}
+.company-client{display:flex;flex-direction:column;justify-content:center;gap:19px;border-right:1px solid var(--line)}
+.company-label{font-size:8px;letter-spacing:1.8px;color:#d4c8b1;display:block}
+.company-mark{display:block;flex:0 0 auto;width:150px;height:28px;background:currentColor;mask:var(--logo) center / contain no-repeat;-webkit-mask:var(--logo) center / contain no-repeat}
+.mark-sber{--logo:url('assets/logos/sber.svg');width:145px;height:26px}
+.mark-gazprombank{--logo:url('assets/logos/gazprombank.svg');width:160px}
+.mark-sminex{--logo:url('assets/logos/sminex.svg');width:130px}
+.mark-donstroy{--logo:url('assets/logos/donstroy.svg');width:140px}
+.mark-mr-group{--logo:url('assets/logos/mr-group.svg');width:115px}
+.mark-capital-group{--logo:url('assets/logos/capital-group.svg');width:155px}
+.company-prospects{min-width:0;position:relative}
+.company-strip-heading{display:flex;justify-content:space-between;align-items:start;gap:14px;margin-bottom:18px}
+.company-strip-heading p{font-size:10px;line-height:1.5;color:#b7b7aa;margin:5px 0 0}
+.company-motion-input{position:absolute;right:80px;top:3px;width:14px;height:14px;margin:0;accent-color:var(--accent)}
+.company-motion-label{font-size:10px;cursor:pointer;white-space:nowrap;min-height:32px;padding:0 0 8px 22px;display:flex;align-items:start;gap:6px}
+.company-motion-label>span{display:none}
+.company-window{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 18px,#000 calc(100% - 18px),transparent)}
+.company-track{display:flex;width:max-content;animation:company-drift 35s linear infinite;animation-play-state:paused}
+.company-set{display:flex;align-items:center;gap:44px;padding:0 44px 0 0}
+.company-motion-input:checked~.company-window .company-track{animation-play-state:running}
+.company-window:hover .company-track{animation-play-state:paused!important}
+@keyframes company-drift{to{transform:translateX(-50%)}}
+@media(max-width:700px){.company-strip{padding:20px 24px;grid-template-columns:1fr;gap:19px}.company-client{flex-direction:row;align-items:center;justify-content:space-between;border-right:0;border-bottom:1px solid var(--line);padding-bottom:18px;gap:15px}.mark-sber{width:125px;height:23px}.company-strip-heading p{font-size:9px;max-width:230px}.company-label{font-size:7px;letter-spacing:1.4px}.company-set{gap:32px;padding-right:32px}.company-mark{height:24px}.company-motion-label{font-size:9px}.company-motion-input{right:71px;width:14px;height:14px}.company-strip-heading{gap:10px}}
+@media(prefers-reduced-motion:reduce){.company-track{animation:none!important;width:auto}.company-duplicate,.company-motion-input,.company-motion-label{display:none}.company-set{flex-wrap:wrap;padding:0;gap:24px 32px}.company-window{mask-image:none}}
+.company-motion-input:not(:checked)~.company-window{mask-image:none}
+.company-motion-input:not(:checked)~.company-window .company-track{animation:none;width:auto}
+.company-motion-input:not(:checked)~.company-window .company-set{flex-wrap:wrap;padding:0;gap:24px 32px}
+.company-motion-input:not(:checked)~.company-window .company-duplicate{display:none}
+.company-label{font-size:9px;letter-spacing:1.5px}.company-strip-heading p{font-size:11px}
+@media(max-width:700px){.company-label{font-size:8px}.company-strip-heading p{font-size:10px}}
