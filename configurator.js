@@ -20,7 +20,8 @@
    {id:'black', label:'Чёрный', color:'#363839', note:'Тёмные детали с мягкими металлическими бликами.', matrix:[.32,.008,.34,.01,.36,.012]}
   ]
  };
- const defaults = {wood:'walnut', cloth:'olive', metal:'bronze'};
+ const configurations = typeof module!=='undefined'&&module.exports ? require('./configurator-models.js') : root.BilliardConfiguratorModels;
+ const defaults = configurations[0].defaults;
  function selected(state) {
   return Object.fromEntries(Object.entries(options).map(([group,items])=>[group,items.find(item=>item.id===state[group])||items[0]]));
  }
@@ -33,24 +34,64 @@
   const [r,ro,g,go,b,bo]=tone;
   return [r*.2126,r*.7152,r*.0722,0,ro,g*.2126,g*.7152,g*.0722,0,go,b*.2126,b*.7152,b*.0722,0,bo,0,0,0,1,0].join(' ');
  }
- function mount(document) {
+ function matrixFor(model,group,item) {
+  if(model.defaults[group]===item.id)return matrixValues(null);
+  return matrixValues(model.tones?.[group]?.[item.id]||item.matrix);
+ }
+ function decodeImage(src) {
+  const image=new Image();image.src=src;return image.decode();
+ }
+ function mount(document,{loadImage=decodeImage}={}) {
   const container=document.querySelector('#configurator');
   if(!container)return;
-  let state={...defaults};
+  let model=configurations[0],request=0,loading=false;
+  const states=Object.fromEntries(configurations.map(item=>[item.id,{...item.defaults}]));
   const controls=container.querySelector('.config-controls');
   const output=container.querySelector('#config-summary');
+  const status=container.querySelector('#config-model-status');
+  const modelButtons=[];
   function render() {
-   const items=selected(state);
+   const state=states[model.id],items=selected(state);
+   const locked=!!document.querySelector('#project-note')?.readOnly;
    for(const group of Object.keys(options)) {
-    container.querySelector(`#config-${group}-matrix`).setAttribute('values',matrixValues(items[group].matrix));
+    container.querySelector(`#config-${group}-matrix`).setAttribute('values',matrixFor(model,group,items[group]));
+    container.querySelector(`#config-${group}-path`).setAttribute('d',model.paths[group]);
     container.querySelector(`#config-${group}-name`).textContent=items[group].label;
     container.querySelector(`#config-${group}-note`).textContent=items[group].note;
    }
-   controls.querySelectorAll('[data-config-group]').forEach(button=>button.setAttribute('aria-pressed',String(state[button.dataset.configGroup]===button.dataset.configValue)));
+   container.querySelector('#config-wood-exclusions').setAttribute('d',model.exclude||'');
+   container.querySelectorAll('.config-image image').forEach(image=>image.setAttribute('href',model.image));
+   container.querySelector('#config-image-label').textContent=model.name.toUpperCase()+' / ПОДБОР ОТТЕНКОВ';
+   container.querySelector('.config-preview').setAttribute('aria-busy',String(loading));
+   modelButtons.forEach(button=>{button.setAttribute('aria-pressed',String(button.dataset.modelId===model.id));button.disabled=locked;});
+   controls.querySelectorAll('[data-config-group]').forEach(button=>{
+    button.setAttribute('aria-pressed',String(state[button.dataset.configGroup]===button.dataset.configValue));button.disabled=locked;
+   });
    const text=summary(state);
-   output.textContent=text;
-   container.querySelector('#config-image-description').textContent=`Концептуальная визуализация стола. ${text}. Цвета показаны приблизительно.`;
-   container.querySelector('#config-reset').disabled=Object.keys(defaults).every(group=>state[group]===defaults[group]);
+   output.textContent=model.name+'. '+text;
+   container.querySelector('#config-image-description').textContent=`Концептуальная визуализация «${model.name}». ${text}. Цвета показаны приблизительно.`;
+   container.querySelector('#config-reset').disabled=locked||loading||Object.keys(defaults).every(group=>state[group]===model.defaults[group]);
+   container.querySelector('#config-apply').disabled=locked||loading;
+  }
+  async function chooseModel(id) {
+   if(document.querySelector('#project-note')?.readOnly)return;
+   const next=configurations.find(item=>item.id===id);if(!next)return;
+   const token=++request;
+   if(next.id===model.id){loading=false;status.textContent='';render();return;}
+   loading=true;status.textContent=`Загружаем модель «${next.name}»…`;render();
+   try{await loadImage(next.image);}catch{
+    if(token!==request)return;
+    loading=false;status.textContent='Не удалось загрузить модель. Предыдущий стол сохранён. Попробуйте ещё раз.';render();return;
+   }
+   if(token!==request)return;
+   model=next;loading=false;status.textContent='';render();
+  }
+  for(const item of configurations) {
+   const button=document.createElement('button');button.type='button';button.className='config-model';button.dataset.modelId=item.id;
+   const thumb=document.createElement('img');thumb.src=item.image;thumb.alt='';thumb.width=192;thumb.height=128;thumb.loading='lazy';
+   const label=document.createElement('span');label.textContent=item.name;button.append(thumb,label);
+   button.addEventListener('click',()=>chooseModel(item.id));
+   container.querySelector('#config-model-options').append(button);modelButtons.push(button);
   }
   for(const [group,items] of Object.entries(options)) {
    const list=container.querySelector(`#config-${group}-options`);
@@ -62,16 +103,21 @@
     const chip=document.createElement('span');chip.className='config-chip';chip.setAttribute('aria-hidden','true');
     const label=document.createElement('span');label.textContent=item.label;
     button.append(chip,label);
-    button.addEventListener('click',()=>{state[group]=item.id;render();});
+    button.addEventListener('click',()=>{if(document.querySelector('#project-note')?.readOnly)return;states[model.id][group]=item.id;render();});
     list.append(button);
    }
   }
-  container.querySelector('#config-reset').addEventListener('click',()=>{state={...defaults};render();});
-  container.querySelector('#config-apply').addEventListener('click',()=>{
-   document.dispatchEvent(new CustomEvent('configuration-apply',{detail:{summary:summary(state)}}));
+  container.querySelector('#config-reset').addEventListener('click',()=>{
+   if(loading||document.querySelector('#project-note')?.readOnly)return;
+   states[model.id]={...model.defaults};render();
   });
-  render();controls.hidden=false;
+  container.querySelector('#config-apply').addEventListener('click',()=>{
+   if(loading||document.querySelector('#project-note')?.readOnly)return;
+   document.dispatchEvent(new CustomEvent('configuration-apply',{detail:{modelId:model.id,summary:summary(states[model.id])}}));
+  });
+  document.addEventListener('inquiry-state-change',render);
+  render();controls.hidden=false;container.querySelector('#config-model-picker').hidden=false;
  }
- if(typeof module!=='undefined'&&module.exports)module.exports={options,defaults,selected,summary,matrixValues,mount};
+ if(typeof module!=='undefined'&&module.exports)module.exports={options,defaults,configurations,selected,summary,matrixValues,matrixFor,mount};
  if(root.document)mount(root.document);
 })(typeof window!=='undefined'?window:globalThis);

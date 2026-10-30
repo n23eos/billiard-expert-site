@@ -676,3 +676,15 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 .home-page .config-disclaimer{font-size:12px;line-height:1.8}
 #chosen-configuration{color:var(--accent);font-size:13px}
 @media(max-width:700px){.config-layout{display:block}.config-preview{top:0;z-index:3;box-shadow:0 10px 22px #151614}.config-controls{margin-top:24px}.home-page .config-option-note{font-size:11px;min-height:0}.config-swatch{font-size:10px}.home-page .config-disclaimer{font-size:11px}}
+
+.config-model-picker{margin:0 0 30px}
+.config-model-picker[hidden]{display:none}
+.config-model-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;max-width:800px;margin-top:14px}
+.config-model{display:flex;align-items:center;gap:13px;min-width:0;border:1px solid var(--line);border-radius:5px;background:#ffffff02;padding:7px 13px 7px 4px;text-align:left;color:var(--muted);font-size:12px;line-height:1.4}
+.config-model img{display:block;width:90px;height:60px;object-fit:cover;flex-shrink:0;border-radius:2px}
+.config-model[aria-pressed="true"]{border-color:var(--accent);background:#c9ae7f0b;color:var(--ink)}
+.config-model:hover{border-color:var(--accent)}
+.config-apply:disabled{opacity:.5;cursor:wait}
+.home-page .config-model-status{font-size:12px;margin:10px 0 0;color:var(--accent)}
+.config-model-status:empty{display:none}
+@media(max-width:700px){.config-model-options{gap:8px}.config-model{flex-direction:column;gap:7px;padding:5px 5px 9px;text-align:center;font-size:10px}.config-model img{width:100%;height:auto;aspect-ratio:3/2}.config-model-picker{margin-bottom:24px}}

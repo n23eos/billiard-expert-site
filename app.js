@@ -35,6 +35,7 @@ async function select(index){
  range.value=index; const img=new Image();img.src=m.image || `assets/${m.id}.webp`;
  try{await img.decode();}catch{if(token===revision){range.value=current;range.setAttribute('aria-valuetext',models[current].name);}return;}
  if(token!==revision)return;
+ if($('#project-note').readOnly){range.value=current;return;}
  inquiryModel=null;
  incoming.style.transition='none';incoming.style.opacity=0;incoming.src=img.src;
  describe(index);
@@ -67,13 +68,14 @@ $('#copy-project').addEventListener('click',async()=>{
  updateEmail();
 });
 
-// Applying a material combination selects its fixed base concept and keeps the visitor's note.
+// Applying a material combination selects its base concept and keeps the visitor's note.
 document.addEventListener('configuration-apply',event=>{
  if($('#project-note').readOnly||typeof event.detail?.summary!=='string')return;
+ const index=models.findIndex(item=>item.id===event.detail.modelId);if(index<0)return;
  document.dispatchEvent(new Event('concept-selection-start'));
- ++revision;incoming.style.opacity=0;main.src=models[0].image||'assets/walnut.webp';
- describe(0);
- inquiryModel={...models[0],configuration:event.detail.summary};updateInquiry();
+ ++revision;incoming.style.opacity=0;main.src=models[index].image||`assets/${models[index].id}.webp`;
+ describe(index);
+ inquiryModel={...models[index],configuration:event.detail.summary};updateInquiry();
  $('#project-panel').hidden=false;
  $('#idea').scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'start'});
  $('#project-note').focus({preventScroll:true});
