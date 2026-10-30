@@ -174,20 +174,19 @@ const models = [
     "category": "modern"
   },
   {
-    "id": "samuraj",
-    "name": "Самурай",
-    "material": "Деревянная фактура · зелёное сукно",
-    "alt": "Визуализация по референсу Самурай",
-    "image": "assets/samuraj-studio.webp",
+    "id": "shogun",
+    "name": "Сёгун",
+    "material": "Тёмный орех · зелёное сукно · бронзовые вставки",
+    "alt": "Концептуальная визуализация бильярдного стола «Сёгун»",
+    "image": "assets/shogun-studio.webp",
     "catalog": false,
-    "source": "https://biliard-expert.ru/biljardnij-stol-samuraj",
     "features": [
       {
-        "title": "Рисунок дерева",
-        "text": "Фактура на бортах и опорах.",
+        "title": "Рисунок ореха",
+        "text": "Тёмная древесная фактура и тонкая окантовка.",
         "point": [
           40,
-          43
+          41
         ],
         "label": [
           5,
@@ -199,11 +198,11 @@ const models = [
         ]
       },
       {
-        "title": "Открытые лузы",
-        "text": "Открытые сетки и скобы.",
+        "title": "Кожаные лузы",
+        "text": "Лаконичные тёмные карманы без открытых сеток.",
         "point": [
-          59,
-          48
+          58,
+          46
         ],
         "label": [
           76,
@@ -215,11 +214,11 @@ const models = [
         ]
       },
       {
-        "title": "Фигурные опоры",
-        "text": "Расширяющиеся книзу опоры.",
+        "title": "Раскрытые опоры",
+        "text": "Две деревянные опоры с наклонными раскосами.",
         "point": [
           58,
-          71
+          69
         ],
         "label": [
           5,
@@ -231,8 +230,8 @@ const models = [
         ]
       }
     ],
-    "reference": true,
-    "shortLabel": "Самурай",
+    "reference": false,
+    "shortLabel": "Сёгун",
     "category": "classic"
   },
   {
@@ -298,20 +297,19 @@ const models = [
     "category": "classic"
   },
   {
-    "id": "high-tech",
-    "name": "High-tech",
-    "material": "Тёмная фактура · металлические акценты",
-    "alt": "Визуализация по референсу High-tech",
-    "image": "assets/high-tech-studio.webp",
+    "id": "vector",
+    "name": "Вектор",
+    "material": "Графитовый корпус · стальные опоры · синее сукно",
+    "alt": "Концептуальная визуализация бильярдного стола «Вектор»",
+    "image": "assets/vector-studio.webp",
     "catalog": false,
-    "source": "https://biliard-expert.ru/biljardnij-stol-high-tech",
     "features": [
       {
-        "title": "Геометричный корпус",
-        "text": "Прямые линии широких бортов.",
+        "title": "Чистая геометрия",
+        "text": "Гладкий корпус и тонкий металлический кант.",
         "point": [
-          65,
-          53
+          64,
+          50
         ],
         "label": [
           5,
@@ -323,11 +321,11 @@ const models = [
         ]
       },
       {
-        "title": "Контраст деталей",
-        "text": "Светлые накладки на углах.",
+        "title": "Встроенные лузы",
+        "text": "Тёмные карманы заподлицо с бортом.",
         "point": [
-          49,
-          51
+          48,
+          48
         ],
         "label": [
           76,
@@ -339,11 +337,11 @@ const models = [
         ]
       },
       {
-        "title": "Архитектурные опоры",
-        "text": "Вертикальные панели и металл.",
+        "title": "Наклонные опоры",
+        "text": "Металлические трапеции раскрывают пространство под столом.",
         "point": [
-          48,
-          71
+          46,
+          69
         ],
         "label": [
           5,
@@ -355,8 +353,8 @@ const models = [
         ]
       }
     ],
-    "reference": true,
-    "shortLabel": "High-tech",
+    "reference": false,
+    "shortLabel": "Вектор",
     "category": "modern"
   },
   {
