@@ -26,7 +26,7 @@
   if(!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)||/^\+?[\d\s()\-]{7,30}$/.test(contact)&&contact.replace(/\D/g,'').length>=7)){message('Укажите телефон с кодом страны или корректный email.');form.elements.contact.focus();return;}
   if(!document.querySelector('#lead-consent').checked){message('Для отправки нужно согласие на обработку данных.');document.querySelector('#lead-consent').focus();return;}
   const submittedConcept=projectModel().id, note=document.querySelector('#project-note');
-  const selectionControls=Array.from(document.querySelectorAll('#table-range,#prev,#next,.ticks button'));
+  const selectionControls=Array.from(document.querySelectorAll('#table-range,#prev,#next,.ticks button,#configurator button'));
   const originalDisabled=selectionControls.map(el=>el.disabled);
   selectionControls.forEach(el=>el.disabled=true);note.readOnly=true;
   busy=true;submit.disabled=true;form.setAttribute('aria-busy','true');renderFiles();
@@ -34,7 +34,7 @@
   message('Подготавливаем файлы и сохраняем проект…');
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),90000);
   try{
-   const payload={idempotencyKey:key,contact,name:form.elements.namedItem('name').value.trim(),city:form.elements.city.value.trim(),description:document.querySelector('#project-note').value.trim(),conceptId:submittedConcept,consentVersion:'2026-10-29',files:await Promise.all(files.map(encode))};
+   const payload={idempotencyKey:key,contact,name:form.elements.namedItem('name').value.trim(),city:form.elements.city.value.trim(),description:projectDescription(),conceptId:submittedConcept,consentVersion:'2026-10-29',files:await Promise.all(files.map(encode))};
    const response=await fetch('api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal});
    const result=await response.json();if(!response.ok||!result.leadId||result.saved!==true)throw new Error(result.error||'save');
    message(`Проект сохранён. Номер обращения: ${result.leadId}.`);submit.textContent='Проект сохранён';enabled=false;

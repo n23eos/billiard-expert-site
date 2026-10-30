@@ -53,9 +53,11 @@ const inspiration=galleryModels.find(m=>m.id===new URLSearchParams(location.sear
 if(inspiration){inquiryModel=inspiration;$('#project-panel').hidden=false;updateInquiry();}
 function updateInquiry(){
  const m=projectModel();$('#selection').textContent=`Вам близок вариант «${m.name}»?`;$('#chosen').textContent=m.name;
- const preview=$('#inspiration-preview');preview.hidden=!inquiryModel;if(inquiryModel){preview.src=m.image;preview.alt=m.alt;}updateEmail();
+ const config=$('#chosen-configuration');if(config){config.textContent=m.configuration||'';config.hidden=!m.configuration;}
+ const preview=$('#inspiration-preview');preview.hidden=!inquiryModel||!!m.configuration;if(inquiryModel&&!m.configuration){preview.src=m.image;preview.alt=m.alt;}updateEmail();
 }
-function projectText(){return `Здравствуйте! Хочу обсудить индивидуальный бильярдный стол.\nНаправление: ${projectModel().name}.\n${$('#project-note').value.trim()}\nИсточник: сайт индивидуального дизайна Бильярд Эксперт.`;}
+function projectDescription(){return [projectModel().configuration,$('#project-note').value.trim()].filter(Boolean).join('\n');}
+function projectText(){return `Здравствуйте! Хочу обсудить индивидуальный бильярдный стол.\nНаправление: ${projectModel().name}.\n${projectDescription()}\nИсточник: сайт индивидуального дизайна Бильярд Эксперт.`;}
 function updateEmail(){const email=$('#project-email');if(email)email.href='mailto:info@biliard-expert.ru?subject='+encodeURIComponent('Индивидуальный бильярдный стол')+'&body='+encodeURIComponent(projectText());}
 $('#project-note').addEventListener('input',updateEmail);
 $('#copy-project').addEventListener('click',async()=>{
@@ -63,4 +65,16 @@ $('#copy-project').addEventListener('click',async()=>{
  try{await navigator.clipboard.writeText(text);$('#copy-status').textContent='Описание скопировано. Отправьте его менеджеру в Telegram.';}
  catch{const field=$('#copy-fallback');field.hidden=false;field.value=text;field.focus();field.select();$('#copy-status').textContent='Автоматическое копирование недоступно. Текст выделен: скопируйте его вручную.';}
  updateEmail();
+});
+
+// Applying a material combination selects its fixed base concept and keeps the visitor's note.
+document.addEventListener('configuration-apply',event=>{
+ if($('#project-note').readOnly||typeof event.detail?.summary!=='string')return;
+ document.dispatchEvent(new Event('concept-selection-start'));
+ ++revision;incoming.style.opacity=0;main.src=models[0].image||'assets/walnut.webp';
+ describe(0);
+ inquiryModel={...models[0],configuration:event.detail.summary};updateInquiry();
+ $('#project-panel').hidden=false;
+ $('#idea').scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'start'});
+ $('#project-note').focus({preventScroll:true});
 });
