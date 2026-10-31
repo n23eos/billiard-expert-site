@@ -688,3 +688,10 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 .home-page .config-model-status{font-size:12px;margin:10px 0 0;color:var(--accent)}
 .config-model-status:empty{display:none}
 @media(max-width:700px){.config-model-options{gap:8px}.config-model{flex-direction:column;gap:7px;padding:5px 5px 9px;text-align:center;font-size:10px}.config-model img{width:100%;height:auto;aspect-ratio:3/2}.config-model-picker{margin-bottom:24px}}
+
+/* Rectangular actions with softly rounded corners. */
+.contact-button,.hero-cta{border-radius:12px}
+.home-page .header-note{align-items:center;gap:24px}
+.home-page .header-note a[href="concepts.html"]{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 16px;border:1px solid var(--accent);border-radius:12px;color:var(--ink);white-space:nowrap}
+.home-page .header-note a[href="concepts.html"]:hover{background:#ccb38914;color:var(--accent)}
+@media(max-width:700px){.home-page .header-note{display:flex;gap:0;margin:0 0 0 auto}.home-page .header-note a:not([href="concepts.html"]){display:none}.home-page .header-note a[href="concepts.html"]{min-height:42px;padding:10px 11px;font-size:10px;letter-spacing:0}.home-page .contact-button{min-height:42px;margin-left:10px;padding:10px 11px;font-size:10px;gap:8px}}
