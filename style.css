@@ -603,7 +603,7 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 @media(max-width:700px){.hero-heading{padding-top:74px}.hero-bottom{padding-top:0}}
 
 /* Brand silhouettes: confirmed client and explicitly unconfirmed prospects. */
-.company-strip{max-width:1440px;margin:0 auto;padding:22px var(--space);display:grid;grid-template-columns:190px minmax(0,1fr);gap:32px;border-bottom:1px solid var(--line);background:#191b16;color:#cbbda3}
+.company-strip{max-width:1440px;margin:0 auto;padding:22px var(--space);display:grid;grid-template-columns:minmax(0,1fr);gap:32px;border-bottom:1px solid var(--line);background:#191b16;color:#cbbda3}
 .company-client{display:flex;flex-direction:column;justify-content:center;gap:19px;border-right:1px solid var(--line)}
 .company-label{font-size:8px;letter-spacing:1.8px;color:#d4c8b1;display:block}
 .company-mark{display:block;flex:0 0 auto;width:150px;height:28px;background:currentColor;mask:var(--logo) center / contain no-repeat;-webkit-mask:var(--logo) center / contain no-repeat}
