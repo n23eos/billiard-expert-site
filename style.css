@@ -553,8 +553,8 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 .hero-explore span{font-size:23px;color:var(--accent)}
 .hero-caption{font-size:9px;letter-spacing:2px;text-align:center;color:#e4d9c5}
 .hero-caption small{display:block;font-size:9px;letter-spacing:0;color:#bdbab0;margin-top:5px}
-#hero-motion-toggle{background:#14151299;border:1px solid #c9b18c88;border-radius:30px;min-height:44px;padding:10px 20px;font-size:11px;min-width:120px}
-#hero-motion-toggle:hover{background:#c9b18c22}
+
+
 .project-at-a-glance{max-width:1600px;margin:0 auto;background:#e8e2d7;color:#272b24;display:grid;grid-template-columns:repeat(3,1fr);padding:34px var(--space);gap:30px}
 .project-at-a-glance>div+div{border-left:1px solid #555c4433;padding-left:40px}
 .project-at-a-glance span{display:block;font-size:8px;letter-spacing:1.5px;color:#5f6355}
@@ -588,7 +588,7 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 .cinematic-hero:after{display:none}
 .hero-bottom{grid-row:3;padding:5px 24px 24px;align-items:center;gap:12px;flex-wrap:wrap}
 .hero-caption{order:3;width:100%;text-align:left;font-size:8px;letter-spacing:1.5px;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:15px}.hero-caption small{font-size:8px;margin:0;letter-spacing:0}
-.hero-explore{font-size:11px;gap:16px}#hero-motion-toggle{font-size:10px;padding:10px 14px}
+.hero-explore{font-size:11px;gap:16px}
 .project-at-a-glance{padding:25px 24px;grid-template-columns:1fr;gap:17px}
 .project-at-a-glance>div{position:relative;padding-right:0}.project-at-a-glance>div+div{border-left:0;border-top:1px solid #555c4433;padding:17px 0 0}
 .project-at-a-glance span{font-size:8px}.project-at-a-glance strong{font-size:28px;margin:5px 0 3px}.project-at-a-glance small{font-size:10px}
@@ -598,7 +598,7 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 @media(prefers-reduced-motion:reduce){.hero-media video{transition:none}.hero-cta{transition:none}}
 @media(max-width:700px){.cinematic-hero{grid-template-columns:minmax(0,1fr)}.hero-heading,.hero-bottom{min-width:0}.hero-caption{flex-wrap:wrap;gap:4px 12px}.hero-cta{width:100%}}
 /* Keep motion control visible immediately, including on short laptop screens. */
-.cinematic-hero #hero-motion-toggle{position:absolute;top:12px;right:var(--space);z-index:3}
+
 .hero-heading{padding-top:74px}
 @media(max-width:700px){.hero-heading{padding-top:74px}.hero-bottom{padding-top:0}}
 

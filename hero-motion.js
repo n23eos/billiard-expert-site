@@ -2,17 +2,14 @@
 
 (() => {
   const video = document.querySelector('#hero-film');
-  const button = document.querySelector('#hero-motion-toggle');
   const status = document.querySelector('#hero-motion-status');
-  if (!video || !button || !status) return;
+  if (!video || !status) return;
 
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const connection = navigator.connection;
   let visible = false;
   let playing = false;
   let pending = false;
-  let manuallyPaused = false;
-  let explicitMotion = false;
   let playbackFailed = false;
   let intent = 0;
 
@@ -20,15 +17,9 @@
     return Boolean(connection && connection.saveData);
   }
 
-  function updateControl(isPlaying) {
+  function updatePlayback(isPlaying) {
     playing = isPlaying;
     video.classList[isPlaying ? 'add' : 'remove']('is-playing');
-    button.textContent = isPlaying ? 'Пауза' : 'Смотреть в движении';
-    button.setAttribute('aria-pressed', String(isPlaying));
-    button.setAttribute(
-      'aria-label',
-      isPlaying ? 'Приостановить видео' : 'Воспроизвести видео'
-    );
   }
 
   function autoplayAllowed() {
@@ -38,25 +29,19 @@
   function shouldPlay() {
     return visible
       && !document.hidden
-      && !manuallyPaused
       && !playbackFailed
-      && (explicitMotion || autoplayAllowed());
+      && autoplayAllowed();
   }
 
-  function pause({ manual = false } = {}) {
+  function pause() {
     intent += 1;
     pending = false;
-    if (manual) {
-      manuallyPaused = true;
-      explicitMotion = false;
-    }
     video.pause();
-    updateControl(false);
+    updatePlayback(false);
   }
 
   function failPlayback() {
     playbackFailed = true;
-    explicitMotion = false;
     pause();
     status.textContent = 'Видео недоступно. Статичное изображение сохранено.';
   }
@@ -67,13 +52,7 @@
     video.load();
   }
 
-  function start({ explicit = false } = {}) {
-    if (explicit) {
-      manuallyPaused = false;
-      explicitMotion = true;
-      playbackFailed = false;
-      status.textContent = '';
-    }
+  function start() {
     if (!shouldPlay() || pending || playing) return;
 
     loadFilm();
@@ -104,28 +83,23 @@
     else if (pending || playing || !video.paused) pause();
   }
 
-  button.hidden = false;
-  updateControl(false);
-
-  button.addEventListener('click', () => {
-    if (pending || playing || !video.paused) pause({ manual: true });
-    else start({ explicit: true });
-  });
+  updatePlayback(false);
 
   video.addEventListener('playing', () => {
     if (!shouldPlay()) {
       video.pause();
-      updateControl(false);
+      updatePlayback(false);
       return;
     }
     pending = false;
     status.textContent = '';
-    updateControl(true);
+    updatePlayback(true);
   });
   video.addEventListener('pause', () => {
     if (!video.paused) return;
     pending = false;
-    updateControl(false);
+    updatePlayback(false);
+    reconcile();
   });
   video.addEventListener('error', failPlayback);
 
@@ -138,14 +112,12 @@
   observer.observe(video.closest('section') || video);
 
   preference.addEventListener('change', () => {
-    explicitMotion = false;
     pause();
     if (!preference.matches) reconcile();
   });
 
   if (connection && connection.addEventListener) {
     connection.addEventListener('change', () => {
-      explicitMotion = false;
       pause();
       if (!connection.saveData) reconcile();
     });
