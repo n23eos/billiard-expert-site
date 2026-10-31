@@ -10,7 +10,7 @@ function renderGallery(filter){
   const img=document.createElement('img');img.src=m.image||`assets/${m.id}.webp`;img.alt=m.alt;img.loading='lazy';img.width=1536;img.height=1024;
   const kind=document.createElement('span');kind.className='eyebrow';kind.textContent=m.reference?'ВИЗУАЛИЗАЦИЯ ПО РЕФЕРЕНСУ':'КОНЦЕПТ';
   const h=document.createElement('h2');h.textContent=m.name;const p=document.createElement('p');p.textContent=m.material;
-  const link=document.createElement('span');link.className='card-link';link.textContent='Рассмотреть концепт ↗';a.append(img,kind,h,p,link);article.append(a);return article;
+  const link=document.createElement('span');link.className='card-link';link.textContent='Рассмотреть концепт ↗︎';a.append(img,kind,h,p,link);article.append(a);return article;
  });
  document.querySelector('#gallery').replaceChildren(...cards);document.querySelector('#gallery-count').textContent=`Показано ${visible.length} из ${allConcepts.length}`;
  document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===filter)));

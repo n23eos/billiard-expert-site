@@ -19,7 +19,7 @@
  document.querySelector('#project-note').addEventListener('input',()=>{if(!busy)key=crypto.randomUUID();});
  document.addEventListener('concept-selection-start',()=>{if(!busy)key=crypto.randomUUID();});
  const encode=file=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve({name:file.name,type:file.type,data:String(reader.result).split(',')[1]});reader.onerror=()=>reject(new Error('file'));reader.readAsDataURL(file);});
- async function check(){try{const response=await fetch('api/config',{cache:'no-store'});const config=await response.json();enabled=response.ok&&config.enabled===true;}catch{enabled=false;}submit.disabled=!enabled;message(enabled?'Отправка доступна. Обязателен только контакт и согласие.':'Онлайн-отправка пока не подключена. Напишите нам в Telegram, по email или позвоните по контактам ниже.');}
+ async function check(){try{const response=await fetch('api/config',{cache:'no-store'});const config=await response.json();enabled=response.ok&&config.enabled===true;}catch{enabled=false;}submit.disabled=!enabled;form.hidden=!enabled;if(enabled)message('Отправка доступна. Обязателен только контакт и согласие.');}
  form.addEventListener('submit',async event=>{
   event.preventDefault();if(busy||!enabled)return;
   const contact=form.elements.contact.value.trim();

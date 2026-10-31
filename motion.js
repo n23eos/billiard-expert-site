@@ -4,7 +4,7 @@
  const preference=matchMedia('(prefers-reduced-motion: reduce)');
  const films={walnut:'assets/walnut-film.mp4',stone:'assets/stone-film.mp4',noir:'assets/noir-film.mp4'};
  let intent=0;
- function stop(){intent++;video.pause();video.currentTime=0;video.hidden=true;scene.classList.remove('cinema-playing');button.textContent='Смотреть в движении ↗';button.setAttribute('aria-pressed','false');}
+ function stop(){intent++;video.pause();video.currentTime=0;video.hidden=true;scene.classList.remove('cinema-playing');button.textContent='Смотреть в движении ↗︎';button.setAttribute('aria-pressed','false');}
  function sync(){stop();const model=models[Number(range.value)];const film=model&&films[model.id];button.hidden=!film||preference.matches;if(film&&source.getAttribute('src')!==film){source.src=film;video.poster=model.image||`assets/${model.id}.webp`;video.load();}}
  button.addEventListener('click',async()=>{
   if(!video.paused){stop();return;}

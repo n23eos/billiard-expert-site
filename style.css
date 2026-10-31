@@ -686,3 +686,29 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 .home-page .header-note a[href="concepts.html"]{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 16px;border:1px solid var(--accent);border-radius:12px;color:var(--ink);white-space:nowrap}
 .home-page .header-note a[href="concepts.html"]:hover{background:#ccb38914;color:var(--accent)}
 @media(max-width:700px){.home-page .header-note{display:flex;gap:0;margin:0 0 0 auto}.home-page .header-note a:not([href="concepts.html"]){display:none}.home-page .header-note a[href="concepts.html"]{min-height:42px;padding:10px 11px;font-size:10px;letter-spacing:0}.home-page .contact-button{min-height:42px;margin-left:10px;padding:10px 11px;font-size:10px;gap:8px}}
+
+/* First-screen readability and a calmer hierarchy. */
+@media(min-width:701px){
+.home-page header{min-height:72px;padding-top:14px;padding-bottom:14px}
+.home-page .company-strip{padding-top:12px;padding-bottom:12px}
+.home-page .cinematic-hero{height:calc(100svh - 72px);min-height:680px}
+.home-page .hero-heading{padding-top:46px}
+.home-page .hero-media img,.home-page .hero-media video{object-position:center 50%}
+}
+.home-page .header-note{font-size:13px;color:#c9c8bf}
+.home-page .hero-heading .eyebrow{font-size:10px;line-height:1.6}
+.home-page .hero-description{font-size:13px;color:#e1dfd6}
+.home-page .hero-consultation{font-size:11px;line-height:1.5;color:#f0ece2;background:#151614e8;padding:7px 10px;max-width:330px;border-radius:4px}
+.home-page .hero-caption,.home-page .hero-caption small{font-size:10px}
+.home-page .project-at-a-glance small{font-size:12px}
+@media(max-width:700px){
+.home-page .hero-heading{padding-top:32px}
+.home-page .hero-heading .eyebrow{font-size:10px}
+.home-page .hero-copy>p:first-child,.home-page .hero-description{font-size:13px}
+.home-page .hero-consultation{padding:0;background:none;margin-top:10px}
+.home-page .hero-caption{font-size:10px}
+.home-page .config-swatch,.home-page .config-model{font-size:11px}
+}
+
+/* Keep the selected detail next to the image on small screens. */
+@media(max-width:700px){#callouts{min-height:0;margin-bottom:8px}.callout{padding:14px 0}.callout h3{font-size:23px;margin:5px 0}.callout p{margin:0}}
