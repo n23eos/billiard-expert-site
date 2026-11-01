@@ -70,7 +70,7 @@ async function select(index){
 range.addEventListener('input',()=>select(+range.value));$('#prev').addEventListener('click',()=>select(+range.value-1));$('#next').addEventListener('click',()=>select(+range.value+1));range.max=models.length-1;
 $('.ticks').replaceChildren(...models.map((m,i)=>{const b=document.createElement('button');b.dataset.index=i;b.textContent=m.shortLabel;return b;}));
 document.querySelectorAll('[data-index]').forEach(b=>b.addEventListener('click',()=>select(+b.dataset.index)));
-$('#discuss').addEventListener('click',()=>{$('#project-panel').hidden=false;$('#chosen').textContent=projectModel().name;$('#project-note').focus();});
+$('#discuss').addEventListener('click',()=>{$('#project-panel').hidden=false;$('#chosen').textContent=projectModel().name;});
 describe(0);
 const initial=models.findIndex(m=>m.id===new URLSearchParams(location.search).get('concept'));
 if(initial>0)select(initial);
@@ -82,7 +82,7 @@ function updateInquiry(){
  const preview=$('#inspiration-preview');preview.hidden=!inquiryModel||!!m.configuration;if(inquiryModel&&!m.configuration){preview.src=m.image;preview.alt=m.alt;}updateEmail();
 }
 function projectDescription(){return [projectModel().configuration,$('#project-note').value.trim()].filter(Boolean).join('\n');}
-function projectText(){return `Здравствуйте! Хочу обсудить индивидуальный бильярдный стол.\nНаправление: ${projectModel().name}.\n${projectDescription()}\nИсточник: сайт индивидуального дизайна Бильярд Эксперт.`;}
+function projectText(){return `Здравствуйте! Хочу обсудить индивидуальный бильярдный стол.\nНаправление: ${projectModel().name}.\n${projectDescription()}\nИсточник: Бильярд Эксперт / индивидуальный дизайн (billiard-expert-premium).\nСтраница: ${window.LeadAttribution?.safePage(location.href)||location.origin+location.pathname}`;}
 function updateEmail(){const email=$('#project-email');if(email)email.href='mailto:info@biliard-expert.ru?subject='+encodeURIComponent('Индивидуальный бильярдный стол')+'&body='+encodeURIComponent(projectText());}
 $('#project-note').addEventListener('input',updateEmail);
 $('#copy-project').addEventListener('click',async()=>{
@@ -97,6 +97,17 @@ window.addEventListener('resize',()=>redrawDetails());
 if(typeof ResizeObserver!=='undefined')new ResizeObserver(()=>redrawDetails()).observe($('#scene'));
 if(document.fonts)document.fonts.ready.then(()=>redrawDetails());
 
+// Restore a configuration chosen on the separate page after the inquiry UI is ready.
+window.addEventListener('DOMContentLoaded',()=>{
+ const params=new URLSearchParams(location.search);
+ const modelId=params.get('configurationModel'),summary=params.get('configuration');
+ if(!modelId||!summary||summary.length>500)return;
+ if(!models.some(model=>model.id===modelId))return;
+ document.dispatchEvent(new CustomEvent('configuration-apply',{detail:{modelId,summary}}));
+ params.delete('configurationModel');params.delete('configuration');
+ history.replaceState(null,'',location.pathname+(params.size?'?'+params.toString():'')+location.hash);
+});
+
 // Applying a material combination selects its base concept and keeps the visitor's note.
 document.addEventListener('configuration-apply',event=>{
  if($('#project-note').readOnly||typeof event.detail?.summary!=='string')return;
@@ -107,5 +118,5 @@ document.addEventListener('configuration-apply',event=>{
  inquiryModel={...models[index],configuration:event.detail.summary};updateInquiry();
  $('#project-panel').hidden=false;
  $('#idea').scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'start'});
- $('#project-note').focus({preventScroll:true});
+ document.dispatchEvent(new CustomEvent('inquiry-open',{detail:{mode:'project',entryPoint:'configurator'}}));
 });

@@ -570,7 +570,7 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 .idea-direct{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin:25px 0}
 .idea-direct a:first-child{padding:14px 20px;display:flex;justify-content:space-between;gap:25px;background:var(--accent);color:var(--bg);font-size:13px;min-height:48px}
 .idea-direct a:last-child{font-size:14px;white-space:nowrap}
-.home-page #discuss{background:transparent;color:var(--accent);border:1px solid var(--line);font-size:13px}
+.home-page #discuss.cta{background:transparent;color:var(--accent);border:1px solid var(--line);font-size:13px}
 @media(min-width:1600px){.hero-media{inset:30px 0 0}}
 @media(max-width:1000px) and (min-width:701px){.hero-heading{grid-template-columns:1.35fr 1fr;gap:20px}.hero-heading h1{font-size:66px}.hero-heading .eyebrow{font-size:8px;max-width:300px}.hero-copy{padding-top:25px}.hero-media{inset:145px -10% 0}.project-at-a-glance>div+div{padding-left:22px}.project-at-a-glance strong{font-size:25px}}
 @media(max-width:700px){
@@ -713,6 +713,8 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 /* Keep the selected detail next to the image on small screens. */
 @media(max-width:700px){#callouts{min-height:0;margin-bottom:8px}.callout{padding:14px 0}.callout h3{font-size:23px;margin:5px 0}.callout p{margin:0}}
 
+@media(max-width:700px){#callouts{display:grid;grid-template-columns:1fr;gap:0}.callout h3{font-size:22px}}
+
 
 /* Table selector floats over the image; the catalogue stays below it. */
 .home-page .scene-slider{top:auto;bottom:28px;left:5%;width:90%;margin:0;padding:20px 0 6px;isolation:isolate}
@@ -742,3 +744,100 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 
 /* Leaders follow measured caption edges; moving text would detach the anchor. */
 .home-page .callout{animation:none}
+
+/* Two short ways to start an individual project. */
+.inquiry-modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:26px 0 20px}
+.inquiry-modes button{padding:18px 16px;border:1px solid #706557;border-radius:12px;background:transparent;color:var(--text,#eee6d9);text-align:left;font:inherit;cursor:pointer;min-height:82px}
+.inquiry-modes button small{display:block;margin-top:6px;font-size:12px;opacity:.75;line-height:1.5}
+.inquiry-modes button[aria-pressed="true"]{background:#e6d1a9;color:#211d17;border-color:#e6d1a9}
+.inquiry-modes button:focus-visible,.callback-options summary:focus-visible{outline:2px solid #e6d1a9;outline-offset:4px}
+.inquiry-modes button:disabled{opacity:.5;cursor:default}
+#project-panel .inquiry-selection p{font-size:13px;line-height:1.6;margin:0 0 8px}
+#project-panel .inquiry-selection{margin-bottom:20px}
+#inquiry-availability{font-size:14px;line-height:1.65}
+#project-note-group{margin:20px 0}
+.field-optional{font-size:11px;opacity:.65;font-weight:400}
+#project-panel .field-error{font-size:13px;color:#ffc3ab;margin:6px 0 16px}
+#project-panel input[aria-invalid="true"]{border-color:#ffc3ab}
+.callback-options{margin:16px 0;border-bottom:1px solid #544c40;padding-bottom:12px}
+.callback-options summary{font-size:13px;cursor:pointer;min-height:30px;padding:4px 0}
+.callback-options label{margin-top:14px}
+#project-panel .inquiry-footnote{font-size:12px;line-height:1.7;opacity:.7;margin-top:12px}
+#inquiry-form[aria-busy="true"]{opacity:.7}
+@media(max-width:480px){.inquiry-modes{gap:8px}.inquiry-modes button{padding:14px 12px;font-size:13px}.inquiry-modes button small{font-size:11px}#inquiry-form .form-row{grid-template-columns:1fr}}
+
+#idea #inquiry-form{margin-top:18px;padding-top:0;border-top:0}
+
+#idea .inquiry-modes button[aria-pressed="true"] small{color:inherit;opacity:.8}
+.inquiry-phone{display:inline-block;font-size:13px;margin:14px 0}
+
+/* Navigation to the dedicated configurator remains available on small screens. */
+.config-header-link{color:var(--ink);font-size:12px;margin-left:auto}
+.configurator-page .configurator h1{font-size:clamp(48px,6vw,90px)}
+@media(max-width:700px){.home-page .header-note a[href="configurator.html"]{display:inline-flex;align-items:center;min-height:42px;padding:8px;font-size:10px;letter-spacing:0}.home-page .header-note a[href="concepts.html"]{padding:8px;font-size:10px}.home-page header{padding-left:14px;padding-right:14px}.home-page .contact-button{margin-left:4px;padding:8px;font-size:10px}.config-header-link{font-size:10px}}
+
+/* Dedicated workspace: a bounded canvas and one material panel at a time. */
+.configurator-page{height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+.configurator-page header{flex:none;min-height:64px;padding:12px 28px;gap:20px}
+.configurator-page main{flex:1;min-height:0;display:flex}
+.configurator-page footer{display:none}
+.configurator-page .configurator{width:100%;padding:18px 28px 12px;display:flex;flex-direction:column;min-height:0}
+.config-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:16px;flex:none}
+.configurator-page .config-heading h1{font-size:36px;line-height:1.1;margin:5px 0 0}
+.config-heading .eyebrow{font-size:8px;letter-spacing:1.5px}
+.configurator-page .config-heading p{font-size:12px;color:var(--muted);margin:0}
+.configurator-page .config-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;grid-template-rows:minmax(0,1fr) 92px;gap:14px 24px;flex:1;min-height:0;align-items:stretch}
+.config-stage{grid-column:1;grid-row:1;min-height:0;min-width:0;display:flex}
+.configurator-page .config-preview{position:relative;top:auto;margin:0;flex:1;display:flex;flex-direction:column;box-shadow:none}
+.configurator-page .config-image{width:100%;height:100%;min-height:0;flex:1;aspect-ratio:auto}
+.configurator-page .config-image-label{top:14px;left:16px;font-size:8px}
+.configurator-page .config-preview-caption{flex:none;padding:9px 14px;font-size:9px;flex-direction:row}
+.show-original .config-image>image:not(:first-of-type){visibility:hidden}
+.configurator-page .config-model-picker{grid-column:1;grid-row:2;margin:0;min-height:0;position:relative}
+.configurator-page #config-model-heading{display:none}
+.configurator-page .config-model-options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));max-width:none;margin:0;gap:10px;height:100%}
+.configurator-page .config-model{padding:4px;gap:6px;font-size:10px;overflow:hidden}
+.configurator-page .config-model img{width:48%;height:100%;max-height:76px;object-fit:contain}
+.configurator-page .config-model-status{position:absolute;bottom:100%;background:var(--bg);font-size:11px;z-index:4}
+.configurator-page .config-controls{grid-column:2;grid-row:1 / 3;margin:0;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:10px;padding:18px;min-height:0;overflow:auto;background:#ffffff02}
+.config-presets{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;font-size:11px;color:var(--muted)}
+.config-presets select{max-width:180px;background:#24251f;border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:9px;font:inherit}
+.config-tabs{display:flex;gap:3px;background:#ffffff06;padding:4px;border-radius:8px;margin-bottom:18px}
+.config-tabs button{flex:1;border:0;border-radius:5px;background:transparent;color:var(--muted);padding:11px 5px;font-size:12px}
+.config-tabs [aria-selected="true"]{background:var(--accent);color:#191916}
+.configurator-page .config-group{padding:0;border:0;flex:1}
+.configurator-page .config-group[hidden]{display:none}
+.configurator-page .config-group-heading{margin:0 0 12px}
+.configurator-page .config-group-heading h3{font-size:24px}
+.configurator-page .config-group-heading h3>span{display:none}
+.configurator-page .config-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.configurator-page .config-swatch{min-height:76px;padding:9px 3px;font-size:10px;gap:7px;border-color:#ffffff10}
+.configurator-page .config-option-note{font-size:11px;line-height:1.5;min-height:0;margin:12px 0}
+.config-tools{display:flex;gap:8px;margin-top:14px}
+.config-tools button{flex:1;border:1px solid var(--line);border-radius:6px;background:none;color:var(--ink);padding:10px 5px;font-size:10px;min-height:40px}
+.config-tools [aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+.configurator-page #config-share-status{font-size:10px;color:var(--accent);margin:5px 0;min-height:14px;line-height:1.4}
+#config-share-url{width:100%;color:var(--ink);background:transparent;border:1px solid var(--line);font-size:11px}
+.config-selection{font-size:11px;line-height:1.7;color:var(--muted);padding-top:10px;border-top:1px solid var(--line)}
+.configurator-page .config-actions{margin-top:12px;gap:5px;flex:none}
+.configurator-page .config-apply{min-height:44px;font-size:11px;padding:12px;border-radius:6px}
+.configurator-page .config-disclaimer{font-size:10px;line-height:1.4;margin:10px 0 0;max-width:none;flex:none}
+@media(max-width:1000px){.configurator-page .config-layout{grid-template-columns:minmax(0,1fr) 300px;gap:12px}.configurator-page header{gap:12px}.configurator-page .config-model{flex-direction:column;gap:1px}.configurator-page .config-model img{width:100%;max-height:50px}.configurator-page .config-controls{padding:12px}}
+@media(max-width:700px){
+.configurator-page header{min-height:56px;padding:8px 12px;gap:8px}
+.configurator-page .configurator{padding:10px 12px 8px}
+.config-heading{margin-bottom:8px}.configurator-page .config-heading h1{font-size:25px;margin:0}.config-heading .eyebrow,.configurator-page .config-heading p{display:none}
+.configurator-page .config-layout{grid-template-columns:1fr;grid-template-rows:minmax(125px,1fr) 64px auto;gap:8px}
+.configurator-page .config-controls{grid-column:1;grid-row:3;display:grid;grid-template-columns:1fr;gap:0;padding:10px;overflow:auto;max-height:48dvh}
+.configurator-page .config-model{font-size:9px;flex-direction:column;gap:0;padding:2px}.configurator-page .config-model img{height:38px;max-height:38px}
+.configurator-page .config-model-options{gap:6px}
+.configurator-page .config-preview-caption{display:none}.configurator-page .config-image-label{font-size:6px;top:8px;left:10px}
+.config-presets{margin-bottom:8px;font-size:10px}.config-presets select{padding:6px}.config-tabs{margin-bottom:8px}.config-tabs button{padding:8px;font-size:11px}
+.configurator-page .config-group-heading{display:none}.configurator-page .config-options{grid-template-columns:repeat(6,minmax(0,1fr));gap:3px}.configurator-page #panel-wood .config-options{grid-template-columns:repeat(4,minmax(0,1fr))}.configurator-page #panel-metal .config-options{grid-template-columns:repeat(3,minmax(0,1fr))}
+.configurator-page .config-swatch{min-height:59px;padding:5px 1px;font-size:8px;gap:4px}.configurator-page .config-chip{width:26px;height:26px}.configurator-page .config-option-note{font-size:10px;margin:5px 0;line-height:1.4}
+.config-tools{margin-top:5px}.config-tools button{min-height:32px;padding:7px;font-size:10px}.configurator-page #config-share-status{margin:0;min-height:0}.configurator-page #config-share-status:not(:empty){margin:4px 0}
+.config-selection{font-size:9px;line-height:1.4;padding-top:5px;margin-top:5px}.configurator-page .config-actions{margin-top:7px;display:grid;grid-template-columns:1fr auto;gap:8px}.configurator-page .config-apply{min-height:38px;padding:9px;font-size:10px}.configurator-page .config-reset{font-size:9px}.configurator-page .config-disclaimer{font-size:8px;margin-top:5px}
+}
+@media(max-height:800px) and (min-width:701px){.configurator-page .configurator{padding-top:8px}.config-heading{margin-bottom:8px}.configurator-page .config-heading h1{font-size:26px}.configurator-page .config-controls{padding:10px}.configurator-page .config-swatch{min-height:58px;padding:4px}.configurator-page .config-chip{width:24px;height:24px}.config-tabs{margin-bottom:8px}.config-presets{margin-bottom:8px}.configurator-page .config-option-note{margin:6px 0}.config-tools{margin-top:4px}}
+
+@media(min-width:701px){.configurator-page #panel-wood .config-options{grid-template-columns:repeat(4,minmax(0,1fr))}}

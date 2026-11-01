@@ -6,13 +6,16 @@
   wood: [
    {id:'walnut', label:'Орех', color:'#896044', note:'Тёплый коричневый тон с выразительным рисунком дерева.', matrix:null},
    {id:'light', label:'Светлый тон', color:'#c8ae83', note:'Светлая отделка подчёркивает рисунок и облегчает силуэт.', matrix:[1.05,.20,.88,.16,.67,.10]},
-   {id:'dark', label:'Тёмный тон', color:'#342923', note:'Глубокая тонировка для более сдержанного, графичного образа.', matrix:[.46,.015,.38,.012,.32,.01]}
+   {id:'dark', label:'Тёмный тон', color:'#342923', note:'Глубокая тонировка для более сдержанного, графичного образа.', matrix:[.46,.015,.38,.012,.32,.01]},
+   {id:'cherry', label:'Вишнёвый тон', color:'#682f2a', note:'Красновато-коричневая тонировка дерева.', matrix:[.85,.04,.27,.015,.20,.01]}
   ],
   cloth: [
    {id:'olive', label:'Оливковое', color:'#7b7d53', note:'Приглушённый природный оттенок игрового поля.', matrix:null},
    {id:'green', label:'Зелёное', color:'#235d44', note:'Насыщенный зелёный оттенок игрового поля.', matrix:[.16,.015,.65,.025,.37,.02]},
    {id:'wine', label:'Бордовое', color:'#743342', note:'Тёплый винный оттенок как акцент в интерьере.', matrix:[.70,.025,.18,.012,.29,.02]},
-   {id:'blue', label:'Синее', color:'#326281', note:'Глубокий синий оттенок для прохладной палитры.', matrix:[.15,.02,.43,.035,.72,.045]}
+   {id:'blue', label:'Синее', color:'#326281', note:'Глубокий синий оттенок для прохладной палитры.', matrix:[.15,.02,.43,.035,.72,.045]},
+   {id:'gray', label:'Серое', color:'#81827e', note:'Нейтральный серый оттенок игрового поля.', matrix:[.72,.06,.73,.06,.70,.06]},
+   {id:'sand', label:'Песочное', color:'#b7a079', note:'Мягкий песочный оттенок игрового поля.', matrix:[1,.14,.83,.11,.58,.08]}
   ],
   metal: [
    {id:'bronze', label:'Бронза', color:'#b5996e', note:'Тёплый оттенок металлических деталей.', matrix:null},
@@ -22,6 +25,7 @@
  };
  const configurations = typeof module!=='undefined'&&module.exports ? require('./configurator-models.js') : root.BilliardConfiguratorModels;
  const defaults = configurations[0].defaults;
+ const cleanState=(state,model)=>Object.fromEntries(Object.entries(options).map(([group,items])=>[group,items.some(item=>item.id===state?.[group])?state[group]:model.defaults[group]]));
  function selected(state) {
   return Object.fromEntries(Object.entries(options).map(([group,items])=>[group,items.find(item=>item.id===state[group])||items[0]]));
  }
@@ -68,6 +72,7 @@
     button.setAttribute('aria-pressed',String(state[button.dataset.configGroup]===button.dataset.configValue));button.disabled=locked;
    });
    const text=summary(state);
+   if(typeof CustomEvent!=='undefined')document.dispatchEvent(new CustomEvent('configuration-change',{detail:{modelId:model.id,state:{...state},name:model.name,summary:text}}));
    output.textContent=model.name+'. '+text;
    container.querySelector('#config-image-description').textContent=`Концептуальная визуализация «${model.name}». ${text}. Цвета показаны приблизительно.`;
    container.querySelector('#config-reset').disabled=locked||loading||Object.keys(defaults).every(group=>state[group]===model.defaults[group]);
@@ -115,9 +120,15 @@
    if(loading||document.querySelector('#project-note')?.readOnly)return;
    document.dispatchEvent(new CustomEvent('configuration-apply',{detail:{modelId:model.id,summary:summary(states[model.id])}}));
   });
+  document.addEventListener('configuration-set',async event=>{
+   if(document.querySelector('#project-note')?.readOnly)return;
+   const next=configurations.find(item=>item.id===event.detail?.modelId)||model;
+   states[next.id]=cleanState(event.detail?.state,next);
+   await chooseModel(next.id);
+  });
   document.addEventListener('inquiry-state-change',render);
   render();controls.hidden=false;container.querySelector('#config-model-picker').hidden=false;
  }
- if(typeof module!=='undefined'&&module.exports)module.exports={options,defaults,configurations,selected,summary,matrixValues,matrixFor,mount};
+ if(typeof module!=='undefined'&&module.exports)module.exports={options,defaults,configurations,selected,summary,matrixValues,matrixFor,mount,cleanState};
  if(root.document)mount(root.document);
 })(typeof window!=='undefined'?window:globalThis);
