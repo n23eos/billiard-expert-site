@@ -1,6 +1,7 @@
 (() => {
   'use strict';
-  const measurementId = 'G-T3DL7CQM8X';
+  // Visitor analytics is paused until the owner connects the final domain.
+  const measurementId = '';
   if (!/^G-[A-Z0-9]+$/.test(measurementId)) return;
   if (!/^https?:$/.test(location.protocol) || /^(localhost|127\..*|\[?::1\]?)$/.test(location.hostname)) return;
   if (window.billiardAnalyticsLoaded) return;

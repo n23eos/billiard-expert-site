@@ -1,5 +1,6 @@
 'use strict';
 (()=>{
+ const apiBase=location.hostname==='n23eos.github.io'?'https://billiard.raincoat.cc/':'';
  const $=selector=>document.querySelector(selector);
  const form=$('#inquiry-form'),input=$('#lead-files'),list=$('#file-list'),status=$('#inquiry-status'),submit=form.querySelector('[type=submit]');
  const note=$('#project-note'),contactInput=$('#lead-contact'),consent=$('#lead-consent');
@@ -47,7 +48,7 @@
  const encode=file=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve({name:file.name,type:file.type,data:String(reader.result).split(',')[1]});reader.onerror=()=>reject(new Error('file'));reader.readAsDataURL(file);});
  async function check(){
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),8000);
-  try{const response=await fetch('api/config',{cache:'no-store',signal:controller.signal});const config=await response.json();enabled=response.ok&&config.enabled===true;}catch{enabled=false;}finally{clearTimeout(timer);}
+  try{const response=await fetch(apiBase+'api/config',{cache:'no-store',signal:controller.signal});const config=await response.json();enabled=response.ok&&config.enabled===true;}catch{enabled=false;}finally{clearTimeout(timer);}
   submit.disabled=!enabled;form.hidden=!enabled;modeButtons.forEach(button=>button.disabled=!enabled);
   $('#inquiry-availability').hidden=enabled;$('.form-heading').hidden=!enabled;
   if(enabled){setMode(mode,entryPoint);}
@@ -73,7 +74,7 @@
     const attribution=window.LeadAttribution?.snapshot()||{};
     pending={idempotencyKey:key,contact,requestMode:mode,preferredTime:mode==='callback'?value('preferredTime'):'',name:mode==='project'?value('name'):'',city:mode==='project'?value('city'):'',desiredDate:mode==='project'?value('desiredDate'):'',description:mode==='project'?submittedDescription:(projectModel().configuration||''),conceptId:submittedConcept,consentVersion:'2026-11-01',entryPoint,source:window.LeadAttribution?.safePage(location.href)||location.origin+location.pathname,utm:attribution.latestTouch?.utm||{},attribution,files:mode==='project'?await Promise.all(files.map(encode)):[]};
    }
-   const response=await fetch('api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(pending),signal:controller.signal});
+   const response=await fetch(apiBase+'api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(pending),signal:controller.signal});
    const result=await response.json();if(!response.ok||!result.leadId||result.saved!==true)throw new Error(result.error||'save');
    message(`Обращение сохранено. Номер: ${result.leadId}.`);submit.textContent='Обращение сохранено';completed=true;
   }catch{message('Не удалось подтвердить сохранение. Ваши данные и файлы остались здесь. Повторите отправку или свяжитесь с нами напрямую.');}
