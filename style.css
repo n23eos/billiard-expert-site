@@ -855,3 +855,13 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 .home-page .scene-slider{top:calc(100vw * 2 / 3 + 2px);padding:0}
 .home-page .scene-slider::before{inset:0 -4.35%;background:var(--bg)}
 }
+
+/* Shared single-row navigation with a current destination frame. */
+.home-page header .header-note{display:flex;flex-wrap:nowrap;align-items:center;gap:4px;min-width:0;overflow-x:auto;scrollbar-width:thin}
+.home-page header .header-note a{display:inline-flex;flex-shrink:0;align-items:center;justify-content:center;min-height:44px;padding:10px 12px;border:1px solid transparent;border-radius:12px;color:inherit;white-space:nowrap;text-decoration:none;letter-spacing:0}
+.home-page header .header-note a[aria-current]{border-color:var(--accent);color:var(--accent)}
+.home-page header .header-note a:hover{color:var(--accent);background:#ccb38914}
+@media(max-width:1100px){.home-page header .header-link{display:none}.home-page header .header-note{margin-left:auto;margin-right:8px;font-size:11px}}
+@media(max-width:700px){.home-page header{flex-wrap:wrap;gap:8px}.home-page header .brand{margin-right:auto}.home-page header .contact-button{margin-left:0}.home-page header .header-note{order:3;flex-basis:100%;width:100%;margin:0;font-size:11px}.home-page header .header-note a{padding:8px 10px;min-height:42px}}
+
+.home-page header .header-note a:not([href="concepts.html"]){display:inline-flex}
