@@ -841,3 +841,10 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 @media(max-height:800px) and (min-width:701px){.configurator-page .configurator{padding-top:8px}.config-heading{margin-bottom:8px}.configurator-page .config-heading h1{font-size:26px}.configurator-page .config-controls{padding:10px}.configurator-page .config-swatch{min-height:58px;padding:4px}.configurator-page .config-chip{width:24px;height:24px}.config-tabs{margin-bottom:8px}.config-presets{margin-bottom:8px}.configurator-page .config-option-note{margin:6px 0}.config-tools{margin-top:4px}}
 
 @media(min-width:701px){.configurator-page #panel-wood .config-options{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* Soft local shade keeps the lower caption readable against the floor. */
+@media(min-width:701px){
+.home-page #callouts .callout:last-child{isolation:isolate;text-shadow:0 1px 6px #0009}
+.home-page #callouts .callout:last-child::before{content:"";position:absolute;inset:-22px -28px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at center,#10110fe0 0%,#10110f99 45%,#10110f00 76%)}
+.home-page #callouts .callout:last-child p{color:#e6e2d9}
+}
