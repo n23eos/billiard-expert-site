@@ -10,7 +10,6 @@ function annotate(model){
  [callouts,leaders,points,tabs].forEach(node=>node.replaceChildren());
  const articles=[],lines=[],buttons=[],tabButtons=[];
  function activate(index){
-  articles.forEach((node,i)=>node.hidden=i!==index);lines.forEach((node,i)=>node.style.display=i===index?'':'none');
   [...buttons,...tabButtons].forEach((node,i)=>node.setAttribute('aria-pressed',String(i%model.features.length===index)));
   const feature=model.features[index];$('#detail-title').textContent=feature.title;
   const crop=$('#detail-crop');crop.style.backgroundImage=`url("${model.image||`assets/${model.id}.webp`}")`;
