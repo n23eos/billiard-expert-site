@@ -5,10 +5,18 @@ let current=0, revision=0, inquiryModel=null;
 const projectModel=()=>inquiryModel||models[current];
 const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
 const range=$('#table-range'), main=$('#table-image'), incoming=$('#next-image');
+let redrawDetails=()=>{};
+function detailLeaderSegment(label,point){
+ // Attach to the nearest real edge of the caption, rather than a fixed percentage.
+ return [[Math.max(label.left,Math.min(label.right,point.x)),Math.max(label.top,Math.min(label.bottom,point.y))],[point.x,point.y]];
+}
 function annotate(model){
  const callouts=$('#callouts'),leaders=$('#leaders'),points=$('#detail-points'),tabs=$('#detail-tabs');
  [callouts,leaders,points,tabs].forEach(node=>node.replaceChildren());
  const articles=[],lines=[],buttons=[],tabButtons=[];
+ // Keep the upper captions in the same left-to-right order as their detail points.
+ const upper=model.features.slice(0,2).map((feature,index)=>({feature,index})).sort((a,b)=>a.feature.point[0]-b.feature.point[0]);
+ const slots=new Map(upper.map((entry,slot)=>[entry.index,model.features[slot].label]));
  function activate(index){
   [...buttons,...tabButtons].forEach((node,i)=>node.setAttribute('aria-pressed',String(i%model.features.length===index)));
   const feature=model.features[index];$('#detail-title').textContent=feature.title;
@@ -17,13 +25,30 @@ function annotate(model){
   crop.setAttribute('aria-label',`Фрагмент визуализации: ${feature.title}`);
  }
  model.features.forEach((feature,index)=>{
-  const article=document.createElement('article');article.className='callout';article.style.left=feature.label[0]+'%';article.style.top=feature.label[1]+'%';article.id='feature-'+index;
+  const article=document.createElement('article');article.className='callout';const label=slots.get(index)||feature.label;article.style.left=label[0]+'%';article.style.top=label[1]+'%';article.id='feature-'+index;
   const number=document.createElement('span');number.textContent='0'+(index+1);const title=document.createElement('h3');title.textContent=feature.title;const text=document.createElement('p');text.textContent=feature.text;article.append(number,title,text);callouts.append(article);articles.push(article);
-  const line=document.createElementNS('http://www.w3.org/2000/svg','polyline');line.setAttribute('class','leader');const [x,y]=[feature.point[0]*12,feature.point[1]*8], [ex,ey]=[feature.end[0]*12,feature.end[1]*8];line.setAttribute('points',`${x},${y} ${ex},${ey} ${ex+(feature.label[0]<50?-70:70)},${ey}`);leaders.append(line);lines.push(line);
+  const line=document.createElementNS('http://www.w3.org/2000/svg','polyline');line.setAttribute('class','leader');leaders.append(line);lines.push(line);
   function makeButton(className){const button=document.createElement('button');button.type='button';button.className=className;button.textContent=String(index+1).padStart(2,'0');button.setAttribute('aria-label',feature.title);button.setAttribute('aria-controls',article.id);button.addEventListener('click',()=>activate(index));button.addEventListener('focus',()=>activate(index));return button;}
   const point=makeButton('detail-point');point.style.left=feature.point[0]+'%';point.style.top=feature.point[1]+'%';points.append(point);buttons.push(point);
   const tab=makeButton('detail-tab');tabs.append(tab);tabButtons.push(tab);
- });activate(0);
+ });
+ redrawDetails=()=>{
+  const frame=leaders.getBoundingClientRect();
+  if(!frame.width||!frame.height)return;
+  leaders.setAttribute('viewBox',`0 0 ${frame.width} ${frame.height}`);
+  articles.forEach((article,index)=>{
+   const textRange=document.createRange();
+   textRange.selectNodeContents(article.querySelector(index<2?'p':'h3'));
+   const textLines=Array.from(textRange.getClientRects()).filter(rect=>rect.width&&rect.height);
+   const rect=textLines[index<2?textLines.length-1:0]||article.getBoundingClientRect();
+   const dot=buttons[index].getBoundingClientRect();
+   const label={left:rect.left-frame.left,right:rect.right-frame.left,top:rect.top-frame.top,bottom:rect.bottom-frame.top};
+   const point={x:(dot.left+dot.right)/2-frame.left,y:(dot.top+dot.bottom)/2-frame.top};
+   lines[index].setAttribute('points',detailLeaderSegment(label,point).map(pair=>pair.join(',')).join(' '));
+  });
+ };
+ if(typeof requestAnimationFrame==='function')requestAnimationFrame(()=>redrawDetails());
+ activate(0);
 }
 
 function describe(index){const m=models[index];current=index;range.value=index;range.style.setProperty('--progress',index/(models.length-1)*100+'%');range.setAttribute('aria-valuetext',m.name);$('#number').textContent=`${String(index+1).padStart(2,'0')} / ${String(models.length).padStart(2,'0')}`;$('#model-name').textContent=m.name;$('#model-material').textContent=m.material;updateInquiry();$('#prev').disabled=index===0;$('#next').disabled=index===models.length-1;document.querySelectorAll('[data-index]').forEach(b=>{b.classList.toggle('selected',+b.dataset.index===index);b.setAttribute('aria-pressed',String(+b.dataset.index===index));});main.alt=m.alt;main.classList.toggle('catalog-photo',!!m.catalog);incoming.classList.toggle('catalog-photo',!!m.catalog);$('.scene-note').textContent=m.reference?'ВИЗУАЛИЗАЦИЯ ПО РЕФЕРЕНСУ · '+m.name.toUpperCase():'КОНЦЕПТУАЛЬНАЯ ВИЗУАЛИЗАЦИЯ';$('#catalog-source').hidden=!m.reference;$('#catalog-source').href=m.source||'#';annotate(m);}
@@ -66,6 +91,11 @@ $('#copy-project').addEventListener('click',async()=>{
  catch{const field=$('#copy-fallback');field.hidden=false;field.value=text;field.focus();field.select();$('#copy-status').textContent='Автоматическое копирование недоступно. Текст выделен: скопируйте его вручную.';}
  updateEmail();
 });
+
+// Recompute after wrapping, font loading, viewport changes and model replacement.
+window.addEventListener('resize',()=>redrawDetails());
+if(typeof ResizeObserver!=='undefined')new ResizeObserver(()=>redrawDetails()).observe($('#scene'));
+if(document.fonts)document.fonts.ready.then(()=>redrawDetails());
 
 // Applying a material combination selects its base concept and keeps the visitor's note.
 document.addEventListener('configuration-apply',event=>{
