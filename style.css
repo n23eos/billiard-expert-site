@@ -848,3 +848,10 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 .home-page #callouts .callout:last-child::before{content:"";position:absolute;inset:-22px -28px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at center,#10110fe0 0%,#10110f99 45%,#10110f00 76%)}
 .home-page #callouts .callout:last-child p{color:#e6e2d9}
 }
+
+/* On phones the selector has its own row, clear of the table and its markers. */
+@media(max-width:700px){
+.home-page .scene{padding-top:calc(67% + 108px)}
+.home-page .scene-slider{top:calc(100vw * 2 / 3 + 2px);padding:0}
+.home-page .scene-slider::before{inset:0 -4.35%;background:var(--bg)}
+}
