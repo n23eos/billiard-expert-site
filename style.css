@@ -737,3 +737,5 @@ h1,h2,h3{font-weight:500}h1{line-height:1.02;letter-spacing:-.025em}.section h2{
 
 /* All detail captions remain readable together on phones. */
 @media(max-width:700px){.home-page #callouts{display:grid;grid-template-columns:1fr;gap:0;min-height:0;margin-bottom:8px}.home-page .callout{padding:14px 0}.home-page .callout h3{font-size:22px;margin:5px 0}.home-page .callout p{margin:0}}
+
+@media(min-width:701px){.home-page #callouts .callout:last-child{top:min(77%,calc(100% - 240px))!important}}
