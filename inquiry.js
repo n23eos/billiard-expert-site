@@ -7,6 +7,7 @@
  const modeButtons=[$('#discuss'),$('#describe-project')];
  let files=[],enabled=false,busy=false,completed=false,mode='callback',entryPoint='inquiry',key=crypto.randomUUID(),pending=null;
  const allowed=new Set(['image/jpeg','image/png','image/webp','application/pdf']);
+ const maxFilesTotal=15*1024*1024;
  const message=text=>{status.textContent=text;};
  const invalidate=()=>{if(!busy&&!completed){key=crypto.randomUUID();pending=null;}};
  const fieldError=(field,id,text)=>{field.setAttribute('aria-invalid',String(!!text));$(id).textContent=text;$(id).hidden=!text;};
@@ -39,6 +40,7 @@
   if(files.length+added.length>5){message('Можно приложить до 5 файлов. Удалите лишние и повторите выбор.');return;}
   if(added.some(f=>!allowed.has(f.type)||! /\.(jpe?g|png|webp|pdf)$/i.test(f.name))){message('Поддерживаются только JPEG, PNG, WebP и PDF.');return;}
   if(added.some(f=>f.size===0||f.size>10*1024*1024)){message('Каждый файл должен быть непустым и не больше 10 МБ.');return;}
+  if([...files,...added].reduce((total,file)=>total+file.size,0)>maxFilesTotal){message('Общий размер файлов не должен превышать 15 МБ. Удалите лишние и повторите выбор.');return;}
   files.push(...added);invalidate();renderFiles();message('Файлы добавлены. Они отправятся вместе с проектом.');
  });
  form.addEventListener('input',invalidate);note.addEventListener('input',invalidate);
