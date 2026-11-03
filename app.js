@@ -82,7 +82,7 @@ function updateInquiry(){
  const preview=$('#inspiration-preview');preview.hidden=!inquiryModel||!!m.configuration;if(inquiryModel&&!m.configuration){preview.src=m.image;preview.alt=m.alt;}updateEmail();
 }
 function projectDescription(){return [projectModel().configuration,$('#project-note').value.trim()].filter(Boolean).join('\n');}
-function projectText(){return `Здравствуйте! Хочу обсудить индивидуальный бильярдный стол.\nНаправление: ${projectModel().name}.\n${projectDescription()}\nИсточник: Бильярд Эксперт / индивидуальный дизайн (billiard-expert-premium).\nСтраница: ${window.LeadAttribution?.safePage(location.href)||location.origin+location.pathname}`;}
+function projectText(){return `Здравствуйте! Хочу обсудить индивидуальный бильярдный стол.\nНаправление: ${projectModel().name}.\n${projectDescription()}\nИсточник: Royal Billiard / индивидуальный дизайн (billiard-expert-premium).\nСтраница: ${window.LeadAttribution?.safePage(location.href)||location.origin+location.pathname}`;}
 function updateEmail(){const email=$('#project-email');if(email)email.href='mailto:info@biliard-expert.ru?subject='+encodeURIComponent('Индивидуальный бильярдный стол')+'&body='+encodeURIComponent(projectText());}
 $('#project-note').addEventListener('input',updateEmail);
 $('#copy-project').addEventListener('click',async()=>{
